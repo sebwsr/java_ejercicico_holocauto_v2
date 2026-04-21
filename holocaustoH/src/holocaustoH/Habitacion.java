@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Habitacion {
-	public static final int ANCHO = 10;
-	public static final int ALTO = 10;
+	public static final int ANCHO = 20;
+	public static final int ALTO = 15;
 	
 	private Posicion puertaEntrada;
 	private Posicion puertaSalida;
