@@ -1,18 +1,14 @@
 package holocaustoH;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class JuegoManager {
     private static JuegoManager instancia;
-    private List<Habitacion> habitaciones;
+    private Mapa mapa; 
     private int habitacionActual;
     private Jugador jugador;
     private boolean juegoActivo;
     private Mochila mochila;
     
     private JuegoManager() {
-        this.habitaciones = new ArrayList<>();
         this.habitacionActual = 0;
         this.juegoActivo = true;
         this.jugador = new Jugador();
@@ -27,44 +23,27 @@ public class JuegoManager {
     }
     
     public void inicializarJuego(int numHabitaciones) {
-        HabitacionFactory.resetPosiciones();
-        habitaciones.clear();
-        
         jugador.setVida(Jugador.VIDA_INICIAL);
         jugador.setPiezasRecogidas(0);
         
-        Posicion puertaInicial = new Posicion(3, 0);
-        Posicion puertaSalidaAnterior = null;
-        
-        for (int i = 0; i < numHabitaciones; i++) {
-            Posicion puertaEntrada;
-            if (i == 0) {
-                puertaEntrada = puertaInicial;
-            } else {
-                puertaEntrada = puertaSalidaAnterior;
-            }
-            
-            // PASAR EL TOTAL DE HABITACIONES PARA SABER CUAL ES LA ULTIMA
-            Habitacion hab = HabitacionFactory.crearHabitacion(i, puertaEntrada, jugador, numHabitaciones);
-            habitaciones.add(hab);
-            puertaSalidaAnterior = hab.getPuertaSalida();
-        }
+        // Aquí inicializamos la nueva clase Mapa
+        this.mapa = new Mapa(numHabitaciones, jugador);
         
         habitacionActual = 0;
         juegoActivo = true;
     }
     
     public Habitacion getHabitacionActual() {
-        if (habitacionActual < habitaciones.size()) {
-            return habitaciones.get(habitacionActual);
+        if (mapa != null && habitacionActual < mapa.getCantidadHabitaciones()) {
+            return mapa.getHabitacion(habitacionActual);
         }
         return null;
     }
     
     public void siguienteHabitacion() {
-        if (habitacionActual + 1 < habitaciones.size()) {
-            Habitacion habActual = habitaciones.get(habitacionActual);
-            Habitacion habSiguiente = habitaciones.get(habitacionActual + 1);
+        if (habitacionActual + 1 < mapa.getCantidadHabitaciones()) {
+            Habitacion habActual = mapa.getHabitacion(habitacionActual);
+            Habitacion habSiguiente = mapa.getHabitacion(habitacionActual + 1);
             
             Jugador jugadorActual = (Jugador) habActual.getJugador();
             Jugador jugadorSiguiente = (Jugador) habSiguiente.getJugador();
@@ -75,8 +54,7 @@ public class JuegoManager {
             jugador.setVida(jugadorActual.getVida());
             jugador.setPiezasRecogidas(0);
             
-            // Actualizar piezas necesarias para la nueva habitacion
-            boolean esUltima = (habitacionActual + 1 == habitaciones.size() - 1);
+            boolean esUltima = (habitacionActual + 1 == mapa.getCantidadHabitaciones() - 1);
             if (esUltima) {
                 jugadorSiguiente.setPiezasNecesarias(3);
                 jugador.setPiezasNecesarias(3);
@@ -93,7 +71,7 @@ public class JuegoManager {
     }
     
     public boolean isJuegoActivo() {
-        return juegoActivo && habitacionActual < habitaciones.size() && jugador.getVida() > 0;
+        return juegoActivo && habitacionActual < mapa.getCantidadHabitaciones() && jugador.getVida() > 0;
     }
     
     public void terminarJuego() {
@@ -105,7 +83,8 @@ public class JuegoManager {
     }
     
     public int getTotalHabitaciones() {
-        return habitaciones.size();
+        if (mapa == null) return 0;
+        return mapa.getCantidadHabitaciones();
     }
     
     public Jugador getJugadorGlobal() {
