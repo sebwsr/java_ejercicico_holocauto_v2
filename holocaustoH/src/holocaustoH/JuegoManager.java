@@ -9,12 +9,14 @@ public class JuegoManager {
 	private int habitacionActual;
 	private Jugador jugador;
 	private boolean juegoActivo;
+	private Mochila mochila;
 	
 	private JuegoManager() {
 		this.habitaciones = new ArrayList<>();
 		this.habitacionActual = 0;
 		this.juegoActivo = true;
 		this.jugador = new Jugador();
+		this.mochila = new Mochila();
 	}
 	//uso patron de diseño para solo ocupar una solo intancia del clase juegomanager
 	public static JuegoManager getInstance() {
@@ -89,7 +91,7 @@ public class JuegoManager {
 	public void terminarJuego() {
 		juegoActivo = false;
 	}
-	
+
 	public int getHabitacionActualNum() {
 		return habitacionActual;
 	}
@@ -100,5 +102,8 @@ public class JuegoManager {
 	
 	public Jugador getJugadorGlobal() {
 		return jugador;
+	}
+	public Mochila getMochila() {
+		return mochila;
 	}
 }

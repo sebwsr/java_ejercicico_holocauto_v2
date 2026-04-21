@@ -98,14 +98,13 @@ public class Juego {
 
 		System.out.println("\n╔═══════════════════════════════════════════╗");
 		System.out.println("║     BIENVENIDO A HOLOCAUSTO H - HADRON    ║");
-		System.out.println("║              EDITION 1.0                  ║");
+		System.out.println("║              EDITION 1.2                  ║");
 		System.out.println("╚═══════════════════════════════════════════╝");
 		System.out.println("\n OBJETIVO: Supera " + gm.getTotalHabitaciones() + " habitaciones");
 		System.out.println(" REGLAS:");
-		System.out.println("   • Recoge las piezas (P) para abrir la puerta de salida");
-		System.out.println("   • Evita los hadrones (H) o perderás vida");
-		System.out.println("   • Los objetos misteriosos (?) pueden tener efectos aleatorios");
-		System.out.println("   • Cada hadrón te quita vida según los pasos que hayas movido");
+		System.out.println("   • Recoge las piezas para abrir la puerta de salida");
+		System.out.println("   • Evita los hadrones o perderás vida");
+		System.out.println("   • Los objetos misteriosos pueden tener efectos aleatorios");
 		System.out.println("   • Puedes moverte en cualquier dirección (números negativos para retroceder)");
 		System.out.println("\n¡MUCHA SUERTE!\n");
 		
@@ -114,35 +113,37 @@ public class Juego {
 	public static void pintarMenu() {
 		
 		System.out.println("========== HOLOCAUSTO H ==========");
-		System.out.println("❤️  VIDA: " + gm.getJugadorGlobal().getVida());
-		System.out.println("📌 HABITACIÓN: " + (gm.getHabitacionActualNum() + 1) + 
+		System.out.println("  VIDA: " + gm.getJugadorGlobal().getVida());
+		System.out.println(" HABITACIÓN: " + (gm.getHabitacionActualNum() + 1) + 
 						  " de " + gm.getTotalHabitaciones());
+		
 		System.out.println("===================================");
-		System.out.println("[1] 🎲 LANZAR DADO DE MOVIMIENTO");
-		System.out.println("[0] 🚪 SALIR DEL JUEGO");
+		System.out.println("[2]  USAR OBJETO DE LA MOCHILA"); 		
+		System.out.println("[1]  LANZAR DADO DE MOVIMIENTO");
+		System.out.println("[0]  SALIR DEL JUEGO");
 		System.out.println("===================================");
 	}
 	
 	public static int lanzarDado(int numCaras) {
 		int dado = ThreadLocalRandom.current().nextInt(1, numCaras + 1);
-		System.out.println("🎲 [DADO] Has sacado un " + dado);
+		System.out.println(" [DADO] Has sacado un " + dado);
 		return dado;
 	}
 	
 	public static int explotaHadron(int vidaPerdida, Jugador jugador) {
 		System.out.println("========== ¡HADRON DETECTADO! ==========");
-		System.out.println("💥 ¡¡¡HAS CHOCADO CONTRA UN HADRÓN!!!");
-		System.out.println("❤️ Has perdido " + vidaPerdida + " puntos de vida");
+		System.out.println(" ¡¡¡HAS CHOCADO CONTRA UN HADRÓN!!!");
+		System.out.println(" Has perdido " + vidaPerdida + " puntos de vida");
 		
 		int nuevaVida = jugador.getVida() - vidaPerdida;
 		jugador.setVida(nuevaVida);
 		
 		if (nuevaVida <= 0) {
-			System.out.println("💀 ¡HAS MUERTO! 💀");
+			System.out.println(" ¡HAS MUERTO! ");
 			System.out.println("=========================================");
 			return Juego.SALIR_JUEGO;
 		} else {
-			System.out.println("❤️ Te quedan " + nuevaVida + " puntos de vida");
+			System.out.println(" Te quedan " + nuevaVida + " puntos de vida");
 			System.out.println("=========================================");
 			return Juego.LANZAR_DADO;
 		}
@@ -150,18 +151,18 @@ public class Juego {
 	
 	public static void habitacionSuperada(Habitacion h) {
 		System.out.println("========== ¡HABITACIÓN SUPERADA! ==========");
-		System.out.println("✨ ¡Has encontrado la salida! ✨");
+		System.out.println(" ¡Has encontrado la salida! ");
 		System.out.println("=========================================");
 	}
 	
 	public static void juegoCompletado() {
-		System.out.println("\n🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉");
+		System.out.println("\n--------------------------------------------------");
 		System.out.println("     ¡FELICITACIONES! HAS COMPLETADO EL JUEGO    ");
-		System.out.println("🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉\n");
+		System.out.println("------------------------------------------------------\n");
 	}
 	
 	public static void mostrarAyuda() {
-		System.out.println("\n📖 AYUDA DEL JUEGO:");
+		System.out.println("\n AYUDA DEL JUEGO:");
 		System.out.println("  J = Tu personaje");
 		System.out.println("  O = Hadron (enemigo) - ¡EVÍTALO! o Objeto misterioso (puede ayudar o perjudicar)");
 		System.out.println("  P = Pieza (necesaria para abrir la salida)");
