@@ -39,14 +39,7 @@ public class HabitacionFactory {
 		return habitacion;
 	}
 	
-	/**
-	 * Genera una posición aleatoria en las orillas de la habitación
-	 * Puede estar en: 
-	 * - Pared superior (fila 0, columna entre 1 y ANCHO-2)
-	 * - Pared inferior (fila ALTO-1, columna entre 1 y ANCHO-2)
-	 * - Pared izquierda (columna 0, fila entre 1 y ALTO-2)
-	 * - Pared derecha (columna ANCHO-1, fila entre 1 y ALTO-2)
-	 */
+	
 	private static Posicion generarPosicionAleatoriaEnOrilla() {
 		int intentos = 0;
 		while (intentos < 100) {
@@ -159,7 +152,10 @@ public class HabitacionFactory {
 			objeto.setPos(generarPosicionAleatoriaInterna());
 			objeto.setLetraMapa('O');
 			objeto.setTipoObjeto(ObjetoJuego.OBJETO);
-			objeto.setPeso(ThreadLocalRandom.current().nextInt(1, 10));
+			
+    	        // Determinar aleatoriamente si es cura o escudo (50% cada uno) Y el peso del objeto
+			objeto.setTipoEspecial( ThreadLocalRandom.current().nextInt(1, 3));
+	        objeto.setPeso(ThreadLocalRandom.current().nextInt(1, 4));		
 			habitacion.agregarObjeto(objeto);
 		}
 	}
